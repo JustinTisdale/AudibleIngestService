@@ -6,6 +6,8 @@ A little Windows Service to watch a directory for newly-added .aax files and con
 
 This is a convenient method to archive your legally-purchased Audible library. You will need your personal Audible activation bytes. The means for acquiring these are beyond the scope of this service, but there are various means here on Github.
 
+This is just a Windows Service wrapped around FFMpegCore which is itself a wrapper around ffmpeg. You could do what this service does with an ffmpeg command. But who wants to run manual commands when you could have a service do it for you automatically?
+
 ## Disclaimer
 
 This little service isn't very smart. Error handling is minimal and its log entries may or may not be helpful. I wrote it as a convenience for myself and am sharing it in hopes others might find it useful. Use at your own risk.
