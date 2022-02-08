@@ -4,19 +4,19 @@ using Serilog;
 
 string runningInDirectory = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
-IConfiguration configuration = new ConfigurationBuilder()
-            .SetBasePath(System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName))
-            .AddJsonFile("appsettings.json")
-            .Build();
-
 IHostBuilder builder = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((builder, services) =>
     {
-        services.AddSingleton<ServiceConfiguration>(configuration.GetRequiredSection("AppSettings").Get<ServiceConfiguration>());
+        services.Configure<ServiceConfiguration>(builder.Configuration.GetRequiredSection("AppSettings"));
         services.AddHostedService<Worker>();
     })
     .UseContentRoot(runningInDirectory)
     .UseWindowsService();
+
+IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(runningInDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
 
 string logFileName = configuration["AppSettings:LogFileName"];
 Console.WriteLine($"Log file name is {logFileName}");

@@ -1,4 +1,5 @@
 using FFMpegCore;
+using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;
 
 namespace AudibleIngestService
@@ -9,10 +10,10 @@ namespace AudibleIngestService
         private readonly ServiceConfiguration _configuration;
 
 
-        public Worker(ILogger<Worker> logger, ServiceConfiguration configuration)
+        public Worker(ILogger<Worker> logger, IOptions<ServiceConfiguration> configuration)
         {
             _logger = logger;
-            _configuration = configuration;
+            _configuration = configuration.Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
